@@ -20,8 +20,8 @@ import jakarta.persistence.Query;
 public class CinemaBean implements IRemoteCinema {
 	
 	
-	@PersistenceContext 
-	private EntityManager em ;
+	@PersistenceContext(unitName="UP_UTILISATEURCINEMA")
+	EntityManager em ;
 
 	public CinemaBean() {
 		super();
@@ -90,8 +90,8 @@ public class CinemaBean implements IRemoteCinema {
 
 	@Override
 	public Film createFilm(String name) {
-		Film F= new Film(name);
-		return F;
+		Film film= new Film(name);
+		return film;
 		
 	}
 

@@ -1,6 +1,7 @@
 package com.enit.controller;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Set;
 
@@ -37,81 +38,50 @@ public class ControleurServlet extends HttpServlet {
         // Fetch list of films
         Set<Film> setFilms = metierCinema.list();
         List<Film> listeFilm = new ArrayList<>(setFilms);
-        System.out.println("List of films: " + setFilms);
+        listeFilm.sort(Comparator.comparing(film -> Integer.valueOf(film.getId_film())));
 
         // Fetch list of SalleProg
         Set<SalleProg> setSalleProgs = metierCinema.getAllSalleProg();
         List<SalleProg> listSalleProgs = new ArrayList<>(setSalleProgs);
-
+        
         // Set attributes for JSP
         context.setAttribute("TousLesFilms", listeFilm);
        // context.setAttribute("TousLesSalleDeProg", listSalleProgs);
 
         // Forward to JSP page
-        request.getRequestDispatcher("/listeFilm.jsp").forward(request, response);
+        context.getRequestDispatcher("/listeFilm.jsp").forward(request, response);
     }
 
 
-	/*
+	
+    
 	@Override 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
 	{ 
 		context= request.getSession().getServletContext();
 	
-	   List<Enseignant> listeEnseignants=	metierEnseignant.lesEnseignants();
 		
-		String action=request.getParameter("action"); 
-		 
-			if(action.equals("ajouter"))
-		
-			{ 
-				Integer idCours= Integer.parseInt(request.getParameter("id"));
-				String label= request.getParameter("label");
-				String debut=request.getParameter("debut");
-				String duree=request.getParameter("duree");
-				String enseignantString = request.getParameter("choice");
-				
-				Enseignant enseignantSelectionne=   metierEnseignant.chercherEnseignant( Integer.parseInt(enseignantString));
-				 
-				
-				Cours cours= new Cours(idCours, label, duree, debut);
-				
-				cours.setIntervenant(enseignantSelectionne);
-				metierCours.ajoutCours(cours);
-				request.setAttribute("beanCours", cours);
-				   List<Cours> listeCours=metierCours.tousLesCours();
 
-				context.setAttribute("listeCours", listeCours);
-				context.setAttribute("listeEnseignants", listeEnseignants);
-		    } 
-			
-		
-	     //  request.getRequestDispatcher("/listeCours.jsp").forward(request, response); 
-           context.getRequestDispatcher("/listeCours.jsp").forward(request, response);
-	} */
-	
-	@Override 
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
-	{ 
-		context= request.getSession().getServletContext();
-	
-		Set<Film> listeFilm =	metierCinema.list();
         String action=request.getParameter("action"); 
 		 
 		if(action.equals("ajouter"))
 		{ 
-			Integer idFilm= Integer.parseInt(request.getParameter("idFilm"));
-			String nomFilm= request.getParameter("nomFilm");
-			
+			Integer idFilm= Integer.parseInt(request.getParameter("id_film"));
+			String nomFilm= request.getParameter("nom");
+			String realisateurFilm= request.getParameter("realisateur"); 
 				
-			Film nvFilm= new Film(idFilm,nomFilm);
-			listeFilm.add(nvFilm);
+			Film nvFilm= new Film(idFilm,nomFilm, realisateurFilm);
+			metierCinema.update(nvFilm);
+			request.setAttribute("cinemaBean", nvFilm);
 				
-			request.setAttribute("beanFilm", listeFilm);
-			context.setAttribute("listeFilm", listeFilm);
+	        List<Film> listeFilms = new ArrayList<>(metierCinema.list());
+	        listeFilms.sort(Comparator.comparing(film -> Integer.valueOf(film.getId_film())));
+
+			context.setAttribute("TousLesFilms", listeFilms);
 		} 
 			
 
+          // context.getRequestDispatcher("/listeFilm.jsp").forward(request, response);
            context.getRequestDispatcher("/listeFilm.jsp").forward(request, response);
 	} 
 }
