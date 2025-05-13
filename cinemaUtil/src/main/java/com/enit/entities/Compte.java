@@ -29,6 +29,16 @@ public class Compte implements Serializable {
 	public Compte(String nom) {
         this.name=nom;
     }
+	
+	
+	public Compte(int id, String name, String pwd, float solde) {
+		this.id = id;
+		this.name = name; 
+		this.password = pwd; 
+		this.solde = solde;
+	}
+	
+	
 	public int getId() {
 	return this.id;
 	}
@@ -49,8 +59,7 @@ public class Compte implements Serializable {
 	}
 	public String toString() {
 	StringBuilder sb = new StringBuilder();
-	sb.append("Compte[id=").append(getId()).append(", name=").
-	append(getName()).append("]");
+	sb.append("Compte[id=").append(getId()).append(", name=").append(getName()).append("]");
 	return sb.toString();
 	}
 

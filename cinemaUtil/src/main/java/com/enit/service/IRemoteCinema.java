@@ -25,4 +25,5 @@ public interface IRemoteCinema {
 	public Film createFilm (String name);
 	public void update (Film f);
 	public float getTarif ();
+	
 }

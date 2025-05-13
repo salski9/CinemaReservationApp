@@ -11,10 +11,9 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
-import jakarta.persistence.Table;
+
 
 @Entity
-@Table(name="SalleP")
 public class SalleProg implements Serializable{
 	/**
 	 * 
@@ -36,7 +35,7 @@ public class SalleProg implements Serializable{
 	private Salle salle;
 	
 	@Column
-	private int maxCapacite;
+	private int salleProgCapacite;
 	
 	public SalleProg() {
 		
@@ -55,12 +54,12 @@ public class SalleProg implements Serializable{
 		this.id_salleProg = id_salleProg;
 	}
 	
-	public void setMaxCapacite(int capacite) {
-		this.maxCapacite = capacite;
+	public void setSalleProgCapacite(int capacite) {
+		this.salleProgCapacite = capacite;
 	}
 	
-	public int getMaxCapacite() {
-		return maxCapacite;
+	public int getSalleProgCapacite() {
+		return salleProgCapacite;
 	}
 	
 	@Override
@@ -102,6 +101,10 @@ public class SalleProg implements Serializable{
 
 	public List<Seance> getSeances(){
 		return this.seances;
+	}
+	
+	public Film getFilm() {
+		return film;
 	}
 	
 

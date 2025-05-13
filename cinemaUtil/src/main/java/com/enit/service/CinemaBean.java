@@ -60,7 +60,7 @@ public class CinemaBean implements IRemoteCinema {
 	public void reserve(Seance seance, IRemoteUtilisateur u) throws PlusDePlaceException, UserNotFoundException, SoldeNegatifException, SoldeInsuffisantException {
 		
 		int places = seance.getPlaces();
-		int actualCapacite = seance.getSalleProg().getMaxCapacite();
+		int actualCapacite = seance.getSalleProg().getSalleProgCapacite();
 		if( u.solde() < seance.getTarif() ) {
 			throw new SoldeInsuffisantException();
 		}
@@ -78,14 +78,12 @@ public class CinemaBean implements IRemoteCinema {
 		}
 		
 	}
-
+	
+	@SuppressWarnings("unchecked")
 	@Override
 	public Set<SalleProg> getAllSalleProg() {
 		Query req=em.createQuery("select c from SalleProg c");
-		@SuppressWarnings("unchecked")
-		List<SalleProg> reqlist=(List<SalleProg>)req.getResultList();
-		Set<SalleProg> reqset= (Set<SalleProg>) reqlist.stream().collect(Collectors.toSet());
-		return reqset;
+		return (Set<SalleProg>) req.getResultList().stream().collect(Collectors.toSet());
 	}
 
 	@Override

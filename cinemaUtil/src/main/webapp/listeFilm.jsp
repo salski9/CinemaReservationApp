@@ -4,138 +4,160 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Gestion des Films</title>
+    <title>Films Valables</title>
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
-        #filmTable {
-            display: none; /* Cache initialement la table des films */
+        body {
+            background: url('images/cinema.jpg') no-repeat center center fixed;
+            background-size: cover;
+            font-family: Arial, sans-serif;
+            color: #ffffff;
+            margin: 0;
+            padding: 0;
         }
-        .container {
-            margin-top: 20px;
+
+        .overlay {
+            background-color: rgba(0, 0, 0, 0.7);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
         }
-        .btn-primary {
-            margin-right: 10px;
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: rgba(0, 0, 0, 0.9);
+            padding: 20px 40px;
+            color: #ff0000;
         }
-        .table-header {
-            background-color: #118dff; /* Bleu primaire */
+
+        .header .logo img {
+            height: 60px;
+        }
+
+        .header .home-icon {
+            cursor: pointer;
+            font-size: 20px;
             color: white;
         }
-        .table-row {
-            background-color: #f0f8ff; /* Gris très clair pour les lignes */
-        }
-        body {
-            background-color: #f9fcff; /* Gris très clair pour le fond */
-        }
+
         h1 {
-            color: #118dff; /* Couleur bleu primaire pour les titres */
+            color: #ff0000;
         }
+
         .form-label {
-            color: #118dff; /* Bleu pour les étiquettes du formulaire */
+            color: #ffffff;
         }
+
         .form-control {
-            border-color: #118dff; /* Bordure bleue pour les champs de formulaire */
+            background-color: transparent;
+            color: #fff;
+            border: 1px solid rgba(255, 255, 255, 0.4);
         }
+
+        .form-control::placeholder {
+            color: rgba(255, 255, 255, 0.5);
+        }
+
+        .form-control:focus {
+            background-color: transparent;
+            color: white;
+            border-color: white;
+            box-shadow: none;
+        }
+
         .btn-primary {
-            background-color: #118dff;
-            border-color: #118dff;
+            background-color: #ff0000;
+            border-color: #ff0000;
         }
+
         .btn-primary:hover {
-            background-color: #0d6efd;
+            background-color: #cc0000;
         }
+
         .btn-secondary {
-            background-color: #d3d3d3;
-            border-color: #c0c0c0;
+            background-color: #555;
+            border-color: #444;
+            color: white;
         }
+
         .btn-secondary:hover {
-            background-color: #b0b0b0;
+            background-color: #777;
+        }
+
+        .form-container {
+            background-color: rgba(0, 0, 0, 0.5);
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 0 15px rgba(255, 0, 0, 0.3);
+        }
+
+        .footer {
+            background-color: rgba(0, 0, 0, 0.8);
+            color: white;
+            text-align: center;
+            padding: 10px;
+            margin-top: auto;
         }
     </style>
-    <script>
-        function toggleFilms() {
-            var table = document.getElementById("filmTable");
-            var toggleButton = document.getElementById("toggleButton");
-            if (table.style.display === "none") {
-                table.style.display = "table";
-                toggleButton.textContent = "Cacher les films";
-            } else {
-                table.style.display = "none";
-                toggleButton.textContent = "Afficher les films";
-            }
-        }
-    </script>
 </head>
 <body>
-    <div class="container">
-        <!-- Liste des films -->
-        <h1 class="text-center">Liste des Films</h1>
-        <div class="text-center mb-4">
-            <button id="toggleButton" class="btn btn-primary" onclick="toggleFilms()">Afficher les films</button>
+<div class="overlay">
+    <!-- Header -->
+    <div class="header">
+        <div class="logo">
+            <img src="images/logoCinema.png" alt="Logo Cinema">
         </div>
-
-        <div class="table-responsive">
-            <table id="filmTable" class="table table-bordered table-hover">
-                <thead>
-                    <tr class="table-header">
-                        <th>ID du Film</th>
-                        <th>Nom du Film</th>
-                        <th>Realisateur du Film</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <c:if test="${not empty TousLesFilms}">
-                        <c:forEach var="c" items="${TousLesFilms}">
-                            <tr class="table-row">
-                                <td><c:out value="${c.id_film}"/></td>
-                                <td><c:out value="${c.nom}"/></td>
-                                <td><c:out value="${c.realisateur }"/></td>
-                            </tr>
-                        </c:forEach>
-                    </c:if>
-                </tbody>
-            </table>
+        <div class="home-icon" onclick="window.location.href='home.jsp';">
+            HOME
         </div>
+    </div>
 
-        <!-- Ajout d'un Film -->
-        <h1 class="text-center text-primary mt-5">Ajout d'un Film</h1>
+    <!-- Form Section -->
+    <h1 class="text-center mt-5">Add a Movie</h1>
+	<div class="container mt-4">
+	    <form method="POST" action="controleur" enctype="multipart/form-data" class="form-container">
+	        <div class="row">
+	            <div class="col-md-6">
+	                <div class="mb-3">
+	                    <label for="nomFilm" class="form-label">Movie Title</label>
+	                    <input type="text" id="nomFilm" name="nom" class="form-control" required />
+	                </div>
+	                <div class="mb-3">
+	                    <label for="realisateurFilm" class="form-label">Director</label>
+	                    <input type="text" id="realisateurFilm" name="realisateur" class="form-control" required />
+	                </div>
+	                <div class="mb-3">
+	                    <label for="dateProj" class="form-label">Screening Date</label>
+	                    <input type="date" id="dateProj" name="dateProj" class="form-control" required />
+	                </div>
+	                <div class="mb-3">
+	                    <label for="filmImage" class="form-label">Movie Poster</label>
+	                    <input type="file" id="filmImage" name="filmImage" accept="image/*" class="form-control" required />
+	                </div>
+	                <div class="text-center">
+	                    <button type="submit" value="ajouter" name="action" class="btn btn-primary">Add Movie</button>
+	                    <button type="reset" value="Reset" name="reset" class="btn btn-secondary">Reset</button>
+	                </div>
+	            </div>
+	            <div class="col-md-6 d-flex align-items-center justify-content-center">
+	                <figure class="text-center">
+	                    <img src="images/addFilm.jpg" alt="Add Movie Illustration" class="img-fluid rounded" style="max-width: 100%; height: auto; max-height: 300px;">
+	                </figure>
+	            </div>
+	        </div>
+	    </form>
+	</div>
 
-<div class="container mt-4">
-    <form method="POST" action="controleur" class="p-3 border rounded shadow-sm bg-light">
-        <div class="row">
-            <!-- Colonne de gauche pour les champs du formulaire -->
-            <div class="col-md-6">
-                <div class="mb-3">
-                    <label for="iDFilm" class="form-label">ID du Film</label>
-                    <input type="number" id="iDFilm" name="id_film" class="form-control" required />
-                </div>
-                <div class="mb-3">
-                    <label for="nomFilm" class="form-label">Nom du Film</label>
-                    <input type="text" id="nomFilm" name="nom" class="form-control" required />
-                </div>
-                <div class="mb-3">
-                    <label for="realisateurFilm" class="form-label">Realisateur du Film</label>
-                    <input type="text" id="realisateurFilm" name="realisateur" class="form-control" required />
-                </div>
-                <div class="text-center">
-                    <button type="submit" value="ajouter" name="action" class="btn btn-primary">Ajouter</button>
-                    <button type="reset" value="Reset" name="reset" class="btn btn-secondary">Reset</button>
-                </div>
-            </div>
-            
-            <!-- Colonne de droite pour l'image -->
-            <div class="col-md-6 d-flex align-items-center justify-content-center">
-                <figure class="text-center">
-                    <img src="images/addFilm.jpg" alt="Add Film Image" class="img-fluid rounded" style="max-width: 100%; height: auto; max-height: 300px;">
-                </figure>
-            </div>
-        </div>
-    </form>
+    <!-- Footer -->
+    <div class="footer">
+        <p>&copy; 2025 Cinema Reservation. Tous droits réservés.</p>
+    </div>
 </div>
 
-<!-- Bootstrap JS et Popper.js -->
+<!-- Bootstrap JS -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"></script>
-
-
-
-
+</body>
 </html>
